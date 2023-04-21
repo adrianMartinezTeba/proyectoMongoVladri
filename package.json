@@ -1,0 +1,19 @@
+{
+  "name": "proyectovladri",
+  "description": "En este proyecto de backend se combinará los conocimientos adquiridos en las tecnologías node + express, además de MongoDB/mongoose.\r El proyecto consistirá en tramitar los datos de una red social a traves de mongoDB.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
