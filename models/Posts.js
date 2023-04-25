@@ -16,10 +16,10 @@ const PostSchema = new mongoose.Schema({
         required: true,
       },
       comments:[
-        { type: ObjectId, ref: 'Order' }
+        { type: ObjectId, ref: 'Comments' }
         ]
     }, { timestamps: true });
 
-const Post = mongoose.model('Product', PostSchema);
+const Post = mongoose.model('Post', PostSchema);
 
 module.exports = Post;
