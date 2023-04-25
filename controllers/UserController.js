@@ -52,22 +52,22 @@ const UserController = {
       });
     }
   },
-  //   async getInfo(req, res) {
-  //     try {
-  //       const user = await User.findById(req.user._id)
-  //         .populate({
-  //           path: "postsIds",
-  //           populate: {
-  //             path: "commentIds",
-  //           },
-  //         })
-  //         .populate("likes");
+    async getInfo(req, res) {
+      try {
+        const user = await User.findById(req.user._id)
+          // .populate({
+          //   path: "postsIds",
+          //   populate: {
+          //     path: "commentIds",
+          //   },
+          // })
+          // .populate("likes");
 
-  //       res.send(user);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   },
+        res.send(user);
+      } catch (error) {
+        console.error(error);
+      }
+    },
 async  confirm(req, res) {
   try {
     const payload = jwt.verify(req.params.email, jwt_secret)//desincriptado email
