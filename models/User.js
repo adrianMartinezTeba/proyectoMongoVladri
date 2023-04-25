@@ -26,9 +26,10 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Por favor rellena tu edad"],
     },
     role: { type: String, default: "user" },
+    confirmed: {type: Boolean, default: false},
     tokens: [],
-    postId: [{ type: ObjectId, ref: "Post" }],
-    //commentId: [{ type: ObjectId, ref: 'Comment' }],
+    postIds: [{ type: ObjectId, ref: "Post" }],
+    commentIds: [{ type: ObjectId, ref: 'Comment' }],
   },
   { timestamps: true }
 );
