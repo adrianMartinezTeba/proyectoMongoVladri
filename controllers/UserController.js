@@ -10,7 +10,7 @@ const UserController = {
     try {
       const password = await bcrypt.hash(req.body.password, 10)
       const user = await User.create({ ...req.body, password, role: 'user' })
-      const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, { expiresIn: '48h' })
+      const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, { expiresIn: '48h' })//incriptado email
       const url = 'http://localhost:8080/users/confirm/' + emailToken
       await transporter.sendMail({
         to: req.body.email,
@@ -70,7 +70,7 @@ const UserController = {
   //   },
 async  confirm(req, res) {
   try {
-    const payload = jwt.verify(req.params.email, jwt_secret)
+    const payload = jwt.verify(req.params.email, jwt_secret)//desincriptado email
     await User.findOneAndUpdate({ email: payload.email }, {confirmed: true});
     res.status(201).send("Usuario confirmado con éxito");
   } catch (error) {
