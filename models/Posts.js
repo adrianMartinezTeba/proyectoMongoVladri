@@ -14,7 +14,11 @@ const PostSchema = new mongoose.Schema({
         type:ObjectId,
         ref: 'User',
         required: true,
-      }}, { timestamps: true });
+      },
+      comments:[
+        { type: ObjectId, ref: 'Order' }
+        ]
+    }, { timestamps: true });
 
 const Post = mongoose.model('Product', PostSchema);
 
