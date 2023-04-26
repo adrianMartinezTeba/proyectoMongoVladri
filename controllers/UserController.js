@@ -63,7 +63,7 @@ const UserController = {
     try {
       const user = await User.findById(req.user._id)
       .populate({
-        path: "postsIds",
+        path: "postId",
         populate: {
           path: "commentIds",
         },
