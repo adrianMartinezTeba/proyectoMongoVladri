@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: [true,'Por favor ingrese algo de contenido']
       },
-      user: {
+      userId: {
         type:ObjectId,
         ref: 'User'
       },

@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { jwt_secret } = require("../config/keys");
+require("dotenv").config();
 const transporter = require("../config/nodemailer");
 
 
@@ -10,7 +10,7 @@ const UserController = {
     try {
       const password = await bcrypt.hash(req.body.password, 10)
       const user = await User.create({ ...req.body, password, role: 'user' })
-      const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, { expiresIn: '48h' })//incriptado email
+      const emailToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: '48h' })//incriptado email
       const url = 'http://localhost:8080/users/confirm/' + emailToken
       await transporter.sendMail({
         to: req.body.email,
@@ -36,7 +36,7 @@ const UserController = {
       if (!isMatch) {
         return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
       }
-      const token = jwt.sign({ _id: user._id }, jwt_secret);
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
       if (user.tokens.length > 4) user.tokens.shift();
       user.tokens.push(token);
       await user.save();
@@ -63,7 +63,7 @@ const UserController = {
     try {
       const user = await User.findById(req.user._id)
       .populate({
-        path: "postsIds",
+        path: "postId",
         populate: {
           path: "commentIds",
         },
@@ -77,7 +77,7 @@ const UserController = {
   },
   async confirm(req, res) {
     try {
-      const payload = jwt.verify(req.params.email, jwt_secret)//desincriptado email
+      const payload = jwt.verify(req.params.email, process.env.JWT_SECRET)//desincriptado email
       await User.findOneAndUpdate({ email: payload.email }, { confirmed: true });
       res.status(201).send("Usuario confirmado con éxito");
     } catch (error) {
