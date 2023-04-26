@@ -13,11 +13,10 @@ const CommentController = {
     async update(req, res) {
         try {
             const comment = await Comment.findByIdAndUpdate(
-                req.params._id,
-                { ...req.body, commentId: req.comment._id },
-                {new: true},
+                req.params._id, req.body,
+                {new: true})
                 res.status(201).send(comment)
-            )
+            
         } catch (error) {
             console.error(error)
             res.status(500).send({ message: 'Ha habido un problema al actualizar el comment' })
