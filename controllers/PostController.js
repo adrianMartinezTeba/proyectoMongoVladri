@@ -55,10 +55,21 @@ const PostController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        message: "there was a problem trying to remove the post",
+        message: "there was a problem trying to get the post",
       })
     }
-  }
+  },
+  async postById (req,res){
+    try {
+      const post = await Post.findOne(req.params._id)
+      res.send({message:'Post por id encontrado con exito',post})
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "there was a problem trying to get the post",
+      })
+    }
+  },
 }
 
 module.exports = PostController;
