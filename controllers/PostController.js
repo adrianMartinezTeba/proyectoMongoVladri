@@ -24,7 +24,7 @@ const PostController = {
       console.error(error);
     }
   },
-   async delete(req, res) {
+  async delete(req, res) {
     try {
       const post = await Post.findByIdAndDelete(req.params._id);
       res.send({ message: "Post deleted", post });
@@ -35,6 +35,30 @@ const PostController = {
       });
     }
   },
+  async postWithUsersAndComments(req, res) {
+    try {
+
+    } catch (error) {
+
+    }
+  },
+  async postByName(req, res) {
+    try {
+      if (req.params.name.length > 20) {
+        // validacion para la expresion regular y que no se buggue
+        return res.status(400).send("Búsqueda demasiado larga");
+      }
+      const name = new RegExp(req.params.name, "i");//la i significa que va a ser insensible de may y min
+      const post = await Product.find({ name });//busqueda por expresion regular
+      res.send({ message: "Post encontrado con exito",post })
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "there was a problem trying to remove the post",
+      })
+    }
+  }
 }
 
 module.exports = PostController;
