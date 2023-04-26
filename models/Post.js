@@ -4,20 +4,20 @@ const PostSchema = new mongoose.Schema({
 
     title: {
         type: String,
-        required: true,
+        required: [true, 'Por favor ingrese un título'],
       },
       content: {
         type: String,
-        required: true,
+        required: [true,'Por favor ingrese algo de contenido']
       },
       user: {
         type:ObjectId,
-        ref: 'User',
-        // required: true,
+        ref: 'User'
       },
       comments:[
         { type: ObjectId, ref: 'Comment' }
-        ]
+        ],
+        likes: [{ type: ObjectId,ref:'User'}],
     }, { timestamps: true });
 
 const Post = mongoose.model('Post', PostSchema);
