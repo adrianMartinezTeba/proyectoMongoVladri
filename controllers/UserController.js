@@ -28,7 +28,14 @@ const UserController = {
     try {
       const user = await User.findOne({
         email: req.body.email,
-      });
+      })
+      if(!user){
+        return res.status(400).send({message:"Usuario o contraseña incorrectos"})
+        }
+      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      if (!isMatch) {
+        return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
+      }
       const token = jwt.sign({ _id: user._id }, jwt_secret);
       if (user.tokens.length > 4) user.tokens.shift();
       user.tokens.push(token);
@@ -52,31 +59,31 @@ const UserController = {
       });
     }
   },
-    async getInfo(req, res) {
-      try {
-        const user = await User.findById(req.user._id)
-          // .populate({
-          //   path: "postsIds",
-          //   populate: {
-          //     path: "commentIds",
-          //   },
-          // })
-          // .populate("likes");
+  async getInfo(req, res) {
+    try {
+      const user = await User.findById(req.user._id)
+      // .populate({
+      //   path: "postsIds",
+      //   populate: {
+      //     path: "commentIds",
+      //   },
+      // })
+      // .populate("likes");
 
-        res.send(user);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-async  confirm(req, res) {
-  try {
-    const payload = jwt.verify(req.params.email, jwt_secret)//desincriptado email
-    await User.findOneAndUpdate({ email: payload.email }, {confirmed: true});
-    res.status(201).send("Usuario confirmado con éxito");
-  } catch (error) {
-    console.error(error);
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async confirm(req, res) {
+    try {
+      const payload = jwt.verify(req.params.email, jwt_secret)//desincriptado email
+      await User.findOneAndUpdate({ email: payload.email }, { confirmed: true });
+      res.status(201).send("Usuario confirmado con éxito");
+    } catch (error) {
+      console.error(error);
+    }
   }
-}
 };
 
 module.exports = UserController;

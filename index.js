@@ -7,10 +7,9 @@ dbConnection()
 const { handleTypeError } = require("./middlewares/errors");
 
 app.use("/users", require("./routes/users"));
-
+app.use("/comments", require("./routes/comments"));
+app.use('/posts', require('./routes/posts'));
 
 app.use(handleTypeError)
-
-app.use('/posts', require('./routes/posts'));
 
 app.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));
