@@ -35,9 +35,21 @@ const PostController = {
       });
     }
   },
-  async postWithUsersAndComments(req, res) {
+  async getAllInf(req, res) {
     try {
+      const { page = 1, limit = 10 } = req.query;
 
+      const posts = await Post.find()
+      .populate('userId')
+      .populate({
+        path: 'comments',
+        populate: {
+          path: 'userId'
+        }
+      })
+        .limit(limit)
+        .skip((page - 1) * limit);
+        res.send(posts);
     } catch (error) {
 
     }
@@ -50,7 +62,7 @@ const PostController = {
       }
       const name = new RegExp(req.params.name, "i");//la i significa que va a ser insensible de may y min
       const post = await Product.find({ name });//busqueda por expresion regular
-      res.send({ message: "Post encontrado con exito",post })
+      res.send({ message: "Post encontrado con exito", post })
 
     } catch (error) {
       console.error(error);
@@ -59,17 +71,17 @@ const PostController = {
       })
     }
   },
-  async postById (req,res){
+  async postById(req, res) {
     try {
       const post = await Post.findOne(req.params._id)
-      res.send({message:'Post por id encontrado con exito',post})
+      res.send({ message: 'Post por id encontrado con exito', post })
     } catch (error) {
       console.error(error);
       res.status(500).send({
         message: "there was a problem trying to get the post",
       })
     }
-  },
+  }
 }
 
 module.exports = PostController;
