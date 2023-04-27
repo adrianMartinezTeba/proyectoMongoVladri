@@ -110,18 +110,18 @@ const PostController = {
   },async unlike(req, res) {
     try {
       // actualizamos el producto y eliminamos el like
-      const product = await Product.findByIdAndUpdate(
+      const post = await Post.findByIdAndUpdate(
         req.params._id,
         { $pull: { likes: req.user._id } },
         { new: true }
       );
-      // eliminamos el producto del array de likes del post
+      // eliminamos el post del array de likes del post
       await User.findByIdAndUpdate(
         req.user._id,
         { $pull: { wishList: req.params._id } },
         { new: true }
       );
-      res.send(product);
+      res.status(500).send({message:'Unlike done succesfully',post});
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: "There was a problem with your unlike" });

@@ -12,6 +12,6 @@ router.get('/byId/:_id',PostController.postById)
 router.get('/byName/:name',PostController.postByName)
 router.get('/getAll',PostController.getAllInf)
 router.put('/like',authentication,PostController.like)
-router.put('/unlike',authentication,PostController.unlike)
+router.put('/unlike',authentication,isAuthorPost,PostController.unlike)
 
 module.exports = router;
