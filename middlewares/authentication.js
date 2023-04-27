@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const Comment = require("../models/Comment");
 
+
 const authentication = async (req, res, next) => {
   try {
     const token = req.headers.authorization;

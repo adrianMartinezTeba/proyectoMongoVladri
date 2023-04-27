@@ -1,17 +1,17 @@
 const express = require('express');
 const {authentication, isAuthorPost} = require('../middlewares/authentication')
+const PostController = require('../controllers/PostController');
 
 const router = express.Router()
 
-const PostController = require('../controllers/PostController');
 
 router.post('/createPost',authentication,PostController.create)
 router.put('/updatePost/:_id',authentication,isAuthorPost,PostController.update)
 router.delete('/deletePost/:_id',authentication,isAuthorPost,PostController.delete)
-router.get('/byId/:_id',PostController.postById)
-router.get('/byName/:name',PostController.postByName)
+router.get('/getById/:_id',PostController.postById)
+router.get('/getByTitle/:title',PostController.postByTitle)
 router.get('/getAll',PostController.getAllInf)
-router.put('/like',authentication,PostController.like)
-router.put('/unlike',authentication,isAuthorPost,PostController.unlike)
+router.put('/like/:_id',authentication,PostController.like)
+router.put('/unlike/:_id',authentication,isAuthorPost,PostController.unlike)
 
 module.exports = router;
