@@ -24,7 +24,7 @@ const UserController = {
       next(error);
     }
   },
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       const user = await User.findOne({
         email: req.body.email,
@@ -44,9 +44,11 @@ const UserController = {
     } catch (error) {
       console.error(error);
       res.status(500).send(error);
+      next(error)
+
     }
   },
-  async logout(req, res) {
+  async logout(req, res, next) {
     try {
       await User.findByIdAndUpdate(req.user._id, {
         $pull: { tokens: req.headers.authorization },
@@ -57,9 +59,10 @@ const UserController = {
       res.status(500).send({
         message: "Hubo un problema al intentar desconectar al usuario",
       });
+      next(error)
     }
   },
-  async getInfo(req, res) {
+  async getInfo(req, res, next) {
     try {
       const user = await User.findById(req.user._id)
       .populate({
@@ -73,15 +76,17 @@ const UserController = {
       res.send(user);
     } catch (error) {
       console.error(error);
+      next(error)
     }
   },
-  async confirm(req, res) {
+  async confirm(req, res, next) {
     try {
       const payload = jwt.verify(req.params.email, process.env.JWT_SECRET)//desincriptado email
       await User.findOneAndUpdate({ email: payload.email }, { confirmed: true });
       res.status(201).send("Usuario confirmado con éxito");
     } catch (error) {
       console.error(error);
+      next(error)
     }
   }
 };
