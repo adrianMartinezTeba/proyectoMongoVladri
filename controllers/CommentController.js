@@ -19,12 +19,21 @@ const CommentController = {
                 req.params._id, req.body,
                 {new: true})
                 res.status(201).send(comment)
-            
         } catch (error) {
             console.error(error)
             res.status(500).send({ message: 'Ha habido un problema al actualizar el comment' })
             next(error)
 
+        }
+    },
+    async findAll(req, res, next) {
+        try {
+            const comment = await Comment.find(req.body)
+            res.status(201).send(comment)
+        } catch (error) {
+            console.error(error)
+            res.status(500).send({ message: 'Ha habido un problema en encotrar los comments' })
+            next(error)
         }
     }
 }
