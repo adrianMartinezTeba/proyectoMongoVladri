@@ -93,11 +93,16 @@ const PostController = {
   async like(req, res) {
     try {
       //actualizamos el post y le sumamos un like
+      const likeCheck=  await Post.findById(req.params._id)
+      if (likeCheck.likes.includes(req.user._id)){
+        return res.status(400).send({ message: "Ya has dado like a este post" }); 
+      }
+
       const post = await Post.findByIdAndUpdate(
         req.params._id,
         { $push: { likes: req.user._id } },
         { new: true }
-      );
+      )
       //guardamos el post en el array de likes del usuario
       await User.findByIdAndUpdate(
         req.user._id,
