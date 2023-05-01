@@ -7,7 +7,13 @@ const PostController = {
   async create(req, res) {
     try {
       const post = await Post.create({...req.body,userId:req.user._id})
-      res.status(201).send({message:'Post creado correctamente',post})
+      await User.findByIdAndUpdate(
+        req.user._id,
+        {$push:{postIds:post._id}}
+        )
+        res.status(201).send({message:'Post creado correctamente',post})
+
+
     } catch (error) {
       console.error(error)
       res.status(500).send({ message: 'Ha habido un problema al crear el post' })
@@ -93,11 +99,11 @@ const PostController = {
   async like(req, res) {
     try {
       //actualizamos el post y le sumamos un like
-      const likeCheck=  await Post.findById(req.params._id)
+      const likeCheck =  await Post.findById(req.params._id)
       if (likeCheck.likes.includes(req.user._id)){
         return res.status(400).send({ message: "Ya has dado like a este post" }); 
       }
-
+      
       const post = await Post.findByIdAndUpdate(
         req.params._id,
         { $push: { likes: req.user._id } },
