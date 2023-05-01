@@ -1,49 +1,47 @@
-# Proyecto red social con mongoDB
+# Descripción del proyecto
 
-En este proyecto de backend se combinará los conocimientos adquiridos en las tecnologías node + express, además de MongoDB/mongoose.
-El proyecto consistirá en tramitar los datos de una red social a traves de mongoDB.
+Este proyecto backend está diseñado para funcionar con una base de datos MongoDB alojada en Atlas DB. Está construido con el framework Node.js y utiliza la biblioteca de Mongoose para interactuar con la base de datos.
 
-## Descripción
+La aplicación se despliega en Vercel, lo que significa que está disponible en línea y puede ser accedida desde cualquier lugar. O se puede usar con el Postman.
 
-Una vez analizadas las necesidades del proyecto, se espera desarrollar una API REST que sea capaz de lo siguiente:
-- Registro de usuarios usando Bcrypt.
-- Login de usuarios + token + middleware.
-- Que sea capaz de crear un CRUD.
-- Dar/quitar Like a post.
-- Backend disponible en producción.
+# Configuración
+Para configurar la aplicación, debe seguir estos pasos:
 
-## Tecnologías
+Clone el repositorio de GitHub a su máquina local
+Ejecute npm install en la línea de comando para instalar todas las dependencias necesarias
+Crea una base de datos MongoDB en Atlas DB
+Crea un archivo .env en el directorio raíz del proyecto y agregue las siguientes variables de entorno:
 
-Para el desarrollo de la API utilizaremos MongoDB con Mongoose y express.
+```js
+DB_URI=<Inserte aquí la URL de conexión de su base de datos Atlas>
+```
 
-## Endpoints
+Ejecute npm run dev para iniciar la aplicación
 
-### Posts
-- Endpoint para crear un post( tiene que estar autenticado)
-- Endpoint para actualizar un post ( tiene que estar autenticado)
-- Endpoint para eliminar un post( tiene que estar autenticado)
-- Endpoint para traer todos los posts junto a los usuarios que hicieron ese post y junto a los comentarios del post
-- Endpoint para buscar post por nombre
-- Endpoint para buscar post por id
-- Implementa validación a la hora de crear un post para que se rellene todos los campos(salvo la imagen, que no sea requerida) y si no se hace que devuelva un mensaje
-- Paginación de 10 en 10
-### Likes:
-- Endpoint para dar un like a un post
-- Endpoint para quitar like a un post
+# Uso
 
-### Comments
-- Endpoint para crear un comentario en un determinado post
+Una vez que la aplicación esté funcionando, podrá acceder a ella a través de una API RESTful. Aquí hay algunos ejemplos de solicitudes que puede realizar:
 
-### Usuarios
-- Endpoint para registrar un usuario utilizando bcrypt
-- Endpoint para login(utilizando bcrypt +JWT)
-- Endpoint que nos traiga la información del usuario conectado
-- Endpoint para el logout
-- Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje
+Para obtener todos los registros en una colección: GET /collection
+Para agregar un nuevo registro a una colección: POST /collection
+Para actualizar un registro existente: PUT /collection/:id
+Para eliminar un registro: DELETE /collection/:id
+En cada solicitud, debe proporcionar los datos necesarios en el cuerpo de la solicitud.
 
-### Backend disponible en producción.
+# Tecnologias usadas 🛠️
 
-### Middleware para comprobar la autoría del post a la hora de editar/eliminar el mismo.
+* [Visual Studio Code](https://code.visualstudio.com) - El framework para crear aplicaciones web 
+* [NodeJS](https://www.npmjs.com) - Sistema gestion de paquetes
+* [Express](https://www.npmjs.com/package/express) - Node  usada para servidor
+* [MongoDb-Atlas](https://cloud.mongodb.com/) - Base de datos usada para el proyecto
+* [Mongoose](https://mongoosejs.com/) - constructor de MongoDB
+*[Postman](https://www.postman.com/) - Herramienta que hace de servidor para comprobar los endpoints
+* [Vercel](https://vercel.com/) - Servidor usado para levantar el proyecto en la red
+* [Trello](https://trello.com/) -  Heramienta usada para el reparto de tareas
 
+## Autores ✒️ 
+
+* **Volodymyr Kolomiiets**  [VolodymyrKolomiets](https://github.com/VolodymyrKolomiets)
+* **Adrian Martinez Teba** [adrianMartinezTeba](https://github.com/adrianMartinezTeba)
 
 
