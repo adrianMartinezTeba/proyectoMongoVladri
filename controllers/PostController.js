@@ -51,12 +51,12 @@ const PostController = {
 
       const posts = await Post.find()
       .populate('userId')
-      .populate({
-        path: 'comments',
-        populate: {
-          path: 'userId'
-        }
-      })
+      // .populate({
+      //   path: 'comments',
+      //   populate: {
+      //     path: 'userId'
+      //   }
+      // })
         .limit(limit)
         .skip((page - 1) * limit);
        res.status(201).send({message:'Mostrando informacion correctamente',posts});
