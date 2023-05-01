@@ -50,13 +50,9 @@ const PostController = {
       const { page = 1, limit = 10 } = req.query;
 
       const posts = await Post.find()
-      .populate('userId')
-      // .populate({
-      //   path: 'comments',
-      //   populate: {
-      //     path: 'userId'
-      //   }
-      // })
+      .populate({path:'userId',select:'name'})
+      .populate({path:'comments',select:'text',populate:{path:'userId',select:'name'}})
+      .populate({path:'likes',select:'name'})
         .limit(limit)
         .skip((page - 1) * limit);
        res.status(201).send({message:'Mostrando informacion correctamente',posts});
@@ -75,7 +71,9 @@ const PostController = {
         return res.status(400).send("Búsqueda demasiado larga");
       }
       const title = new RegExp(req.params.title, "i");//la i significa que va a ser insensible de may y min
-      const post = await Post.find({ title });//busqueda por expresion regular
+      const post = await Post.find({ title })
+      .populate({path:'comments',select:'text',populate:{path:'userId',select:'name'}})
+      .populate({path:'likes',select:'name'});//busqueda por expresion regular
       res.send({ message: "Post encontrado con exito", post })
 
     } catch (error) {
@@ -88,6 +86,8 @@ const PostController = {
   async postById(req, res) {
     try {
       const post = await Post.findById(req.params._id)
+      .populate({path:'comments',select:'text',populate:{path:'userId',select:'name'}})
+      .populate({path:'likes',select:'name'})
       res.send({ message: 'Post por id encontrado con exito', post })
     } catch (error) {
       console.error(error);
