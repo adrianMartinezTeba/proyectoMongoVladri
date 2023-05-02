@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 require("dotenv").config();
 const PORT = process.env.PORT || 3001;
 const { dbConnection } = require("./config/config")
 app.use(express.json())
 dbConnection()
+app.use(cors());
 const { handleTypeError } = require("./middlewares/errors");
 
 app.use("/users", require("./routes/users"));
