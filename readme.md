@@ -137,8 +137,80 @@ Tambien en nuestra red social se pueden agregar comentarios a los posts a traves
         }
     }
 ```
+Aqui dejo ejemplo de como seria el codigo de un modelo en mongoose con las referencias correspondientes
+
+``` js
+const mongoose = require('mongoose');
+const ObjectId = mongoose.SchemaTypes.ObjectId;
+const PostSchema = new mongoose.Schema({
+
+  title: {
+    type: String,
+    required: [true, 'Por favor ingrese un título'],
+  },
+  content: {
+    type: String,
+    required: [true, 'Por favor ingrese algo de contenido']
+  },
+  userId: {
+    type: ObjectId,
+    ref: 'User'
+  },
+  comments: [
+    { type: ObjectId, ref: 'Comment' }
+  ],
+  likes: [{ type: ObjectId, ref: 'User' }],
+}, { timestamps: true });
+
+const Post = mongoose.model('Post', PostSchema);
+
+module.exports = Post;
+```
+
+Teniendo las funciones de los endpoints ahora tendriamos que tener las rutas correspondientes a su codigo aqui dejo todas las rutas relacionadas con posts 
+``` js
+const express = require('express');
+const {authentication, isAuthorPost} = require('../middlewares/authentication')
+const PostController = require('../controllers/PostController');
+
+const router = express.Router()
 
 
+router.post('/createPost',authentication,PostController.create)
+router.put('/updatePost/:_id',authentication,isAuthorPost,PostController.update)
+router.delete('/deletePost/:_id',authentication,isAuthorPost,PostController.delete)
+router.get('/getById/:_id',PostController.postById)
+router.get('/getByTitle/:title',PostController.postByTitle)
+router.get('/getAll',PostController.getAllInf)
+router.put('/like/:_id',authentication,PostController.like)
+router.put('/unlike/:_id',authentication,isAuthorPost,PostController.unlike)
+
+module.exports = router;
+```
+
+Y con su siguiente paso para que funcione que seria la relacion con el index.js
+
+``` js
+const express = require("express");
+const app = express();
+require("dotenv").config();
+const PORT = process.env.PORT || 3001;
+const { dbConnection } = require("./config/config")
+app.use(express.json())
+dbConnection()
+const { handleTypeError } = require("./middlewares/errors");
+
+app.use("/users", require("./routes/users"));
+app.use("/comments", require("./routes/comments"));
+app.use('/posts', require('./routes/posts'));
+
+app.use(handleTypeError)
+
+
+
+app.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));
+```
+Y con esto podrias construir el back-end de tu API de bases de datos no relacionales con mongoDB y las demas tecnologias ya mencionadas
 ## Autores ✒️ 
 
 * **Volodymyr Kolomiiets**  [VolodymyrKolomiets](https://github.com/VolodymyrKolomiets)
