@@ -50,6 +50,8 @@ const upload = multer({ storage: storage });
 
 module.exports = upload;
 ```
+Creamos una carpeta en la raiz del proyecto _uploads_ que es donde le hemos indicado en el middleware de multer.js la ruta a la carpeta donde se van a guardar los archivos que vallamos a subir a los posts.
+
 En las rutas importamos el middleware multer.
 Importamos multer a las rutas:
 ```js

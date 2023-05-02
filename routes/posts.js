@@ -1,12 +1,12 @@
 const express = require('express');
 const {authentication, isAuthorPost} = require('../middlewares/authentication')
 const PostController = require('../controllers/PostController');
-
+const upload = require("../middlewares/multer");
 const router = express.Router()
 
 
-router.post('/createPost',authentication,PostController.create)
-router.put('/updatePost/:_id',authentication,isAuthorPost,PostController.update)
+router.post('/createPost',authentication, upload.single("img"), PostController.create)
+router.put('/updatePost/:_id',authentication,isAuthorPost, upload.single("img"), PostController.update)
 router.delete('/deletePost/:_id',authentication,isAuthorPost,PostController.delete)
 router.get('/getById/:_id',PostController.postById)
 router.get('/getByTitle/:title',PostController.postByTitle)
