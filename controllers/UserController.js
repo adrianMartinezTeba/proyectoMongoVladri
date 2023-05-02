@@ -66,8 +66,14 @@ const UserController = {
     try {
       const user = await User.findById(req.user._id)
       .populate({
-        path: "postIds.post",
+        path: "postIds",
         select: "title",
+      }).populate({
+        path:'commentIds',
+        select:'text'
+      }).populate({
+        path:'likes',
+        select:'title'
       })
       res.send(user);
     } catch (error) {
