@@ -4,7 +4,7 @@ const User = require('../models/User')
 
 
 const PostController = {
-  async create(req, res) {
+  async create(req, res,next) {
     try {
       const post = await Post.create({...req.body,userId:req.user._id})
       await User.findByIdAndUpdate(
@@ -17,9 +17,10 @@ const PostController = {
     } catch (error) {
       console.error(error)
       res.status(500).send({ message: 'Ha habido un problema al crear el post' })
+      next(error);
     }
   },
-  async update(req, res) {
+  async update(req, res,next) {
     try {
       const post = await Post.findByIdAndUpdate(
         req.params._id,
@@ -32,9 +33,10 @@ const PostController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: 'Ha habido un problema al actualizar el post' })
+      next(error);
     }
   },
-  async delete(req, res) {
+  async delete(req, res,next) {
     try {
       const post = await Post.findByIdAndDelete(req.params._id);
       res.send({ message: "Post borrado correctamente", post });
@@ -43,9 +45,10 @@ const PostController = {
       res.status(500).send({
         message: "Ha habido un problema al borrar el post",
       });
+      next(error);
     }
   },
-  async getAllInf(req, res) {
+  async getAllInf(req, res,next) {
     try {
       const { page = 1, limit = 10 } = req.query;
 
@@ -61,10 +64,10 @@ const PostController = {
       res.status(500).send({
         message: "Ha habido un problema al intentar coger la informacion",
       });
-    
+      next(error);
     }
   },
-  async postByTitle(req, res) {
+  async postByTitle(req, res,next) {
     try {
       if (req.params.title.length > 20) {
         // validacion para la expresion regular y que no se buggue
@@ -81,9 +84,10 @@ const PostController = {
       res.status(500).send({
         message: "Ha habido un problema al intentar coger la informacion",
       })
+      next(error);
     }
   },
-  async postById(req, res) {
+  async postById(req, res,next) {
     try {
       const post = await Post.findById(req.params._id)
       .populate({path:'comments',select:'text',populate:{path:'userId',select:'name'}})
@@ -95,8 +99,9 @@ const PostController = {
         message: "Ha habido un problema al intentar coger la informacion",
       })
     }
+    next(error);
   },
-  async like(req, res) {
+  async like(req, res,next) {
     try {
       //actualizamos el post y le sumamos un like
       const likeCheck =  await Post.findById(req.params._id)
@@ -119,8 +124,9 @@ const PostController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Ha habido un problema con tu like" });
+      next(error);
     }
-  },async unlike(req, res) {
+  },async unlike(req, res,next) {
     try {
       // actualizamos el post y eliminamos el like
       const post = await Post.findByIdAndUpdate(
@@ -138,6 +144,7 @@ const PostController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Ha habido  un problema quitando tu like" });
+      next(error);
     }
   }}
   

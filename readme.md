@@ -46,7 +46,7 @@ En esta seccion vamos a mostrar ejemplo del codigo de nuestra api:
 Este es un ejemplo de como seria los endpoints de dar like y quitar like de nuestra red social donde usamos mongoose para hacer las consultas:
 
 ``` js
- async like(req, res) {
+ async like(req, res,next) {
     try {
       //actualizamos el post y le sumamos un like
       const likeCheck =  await Post.findById(req.params._id)
@@ -69,8 +69,9 @@ Este es un ejemplo de como seria los endpoints de dar like y quitar like de nues
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Ha habido un problema con tu like" });
+         next(error);
     }
-  },async unlike(req, res) {
+  },async unlike(req, res,next) {
     try {
       // actualizamos el post y eliminamos el like
       const post = await Post.findByIdAndUpdate(
@@ -88,6 +89,7 @@ Este es un ejemplo de como seria los endpoints de dar like y quitar like de nues
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: "Ha habido  un problema quitando tu like" });
+         next(error);
     }
   }
   ```
