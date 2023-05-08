@@ -6,6 +6,8 @@ const PORT = process.env.PORT || 3001;
 const { dbConnection } = require("./config/config")
 app.use(express.json())
 app.use(cors());
+app.use(express.static("./public"))
+git 
 dbConnection()
 const { handleTypeError } = require("./middlewares/errors");
 
@@ -17,4 +19,4 @@ app.use(handleTypeError)
 
 
 
-app.listen(PORT, ()=> console.log(`Server started on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
