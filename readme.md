@@ -38,7 +38,7 @@ En otras palabras : permite hacer peticiones a tu mismo servidor
 Ejmplo: npm i cors y en el index.js:
 ```js
 const cors = require("cors")
-app.use.(cors())
+app.use(cors())
 ```
 
 # Multer 🌄
