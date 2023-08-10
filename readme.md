@@ -28,6 +28,19 @@ Para actualizar un registro existente: PUT /collection/:id
 Para eliminar un registro: DELETE /collection/:id
 En cada solicitud, debe proporcionar los datos necesarios en el cuerpo de la solicitud.
 
+Cors
+CORS (Cross-Origin Resource Sharing o en español Intercambio de recursos de origen cruzado) es un sistema que consiste en transmitir HTTP headers (en-US), que determina si los navegadores bloquean el acceso del código JavaScript frontend a las respuestas de peticiones de origen cruzado.
+
+La política de seguridad del mismo origen prohíbe el acceso a los recursos de orígenes cruzados. Pero CORS brinda a los servidores web la capacidad de decir que desean optar por permitir el acceso de origen cruzado a sus recursos.
+
+En otras palabras : permite hacer peticiones a tu mismo servidor
+
+Ejmplo: npm i cors y en el index.js:
+```js
+const cors = require("cors")
+app.use(cors())
+```
+
 # Multer 🌄
 Multer es un middleware para Express y Node. js que hace que sea fácil manipular este multipart/form-data cuando tus usuarios suben archivos.
 
@@ -39,7 +52,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "public/");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -50,7 +63,7 @@ const upload = multer({ storage: storage });
 
 module.exports = upload;
 ```
-Creamos una carpeta en la raiz del proyecto _uploads_ que es donde le hemos indicado en el middleware de multer.js la ruta a la carpeta donde se van a guardar los archivos que vallamos a subir a los posts.
+Creamos una carpeta en la raiz del proyecto _public_ que es donde le hemos indicado en el middleware de multer.js la ruta a la carpeta donde se van a guardar los archivos que vallamos a subir a los posts.
 
 En las rutas importamos el middleware multer.
 Importamos multer a las rutas:
@@ -64,6 +77,11 @@ upload.single("img");
 router.post("/create", authentication, upload.single("img"), PostController.create);
 router.put("/update/:_id", authentication, isAuthor, upload.single("img"), PostController.update);
 ```
+En el index.js añadimos:
+```js
+app.use(express.static("./public"))
+```
+Donde .static indica que puede acceder a otra carpeta que esta en otra base de datos que no esta en el mismo proyecto de FRONT.
 
 # Tecnologias usadas 🛠️
 
