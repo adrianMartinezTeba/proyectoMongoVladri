@@ -28,6 +28,43 @@ Para actualizar un registro existente: PUT /collection/:id
 Para eliminar un registro: DELETE /collection/:id
 En cada solicitud, debe proporcionar los datos necesarios en el cuerpo de la solicitud.
 
+# Multer 🌄
+Multer es un middleware para Express y Node. js que hace que sea fácil manipular este multipart/form-data cuando tus usuarios suben archivos.
+
+npm i multer
+En la carpeta “middlewares” creamos un archivo llamado “multer.js” (Además crearemos carpeta Uploads para que las img se almacenen).
+Middleware multer:
+```js
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+module.exports = upload;
+```
+Creamos una carpeta en la raiz del proyecto _uploads_ que es donde le hemos indicado en el middleware de multer.js la ruta a la carpeta donde se van a guardar los archivos que vallamos a subir a los posts.
+
+En las rutas importamos el middleware multer.
+Importamos multer a las rutas:
+```js
+const upload = require("../middlewares/multer");
+```
+Añadimos multer a las rutas de endpoints (ejemplos para create y update).
+Importamos multer a las rutas de los endpoints con:
+```js
+upload.single("img");
+router.post("/create", authentication, upload.single("img"), PostController.create);
+router.put("/update/:_id", authentication, isAuthor, upload.single("img"), PostController.update);
+```
+
 # Tecnologias usadas 🛠️
 
 * [Visual Studio Code](https://code.visualstudio.com) - El framework para crear aplicaciones web 

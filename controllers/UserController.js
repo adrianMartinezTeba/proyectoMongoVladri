@@ -81,6 +81,7 @@ const UserController = {
       next(error)
     }
   },
+  //Nodemailer function too verify email 
   async confirm(req, res, next) {
     try {
       const payload = jwt.verify(req.params.email, process.env.JWT_SECRET)//desincriptado email
