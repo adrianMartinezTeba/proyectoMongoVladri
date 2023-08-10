@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 const PostSchema = new mongoose.Schema({
 
+  image:{
+    type : String
+  },
   title: {
     type: String,
     required: [true, 'Por favor ingrese un título'],

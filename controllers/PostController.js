@@ -6,7 +6,11 @@ const User = require('../models/User')
 const PostController = {
   async create(req, res,next) {
     try {
-      const post = await Post.create({...req.body,userId:req.user._id})
+      let imgPath;
+      if (req.file) {
+        imgPath = req.file.path;
+      }
+      const post = await Post.create({...req.body,image:`${imgPath}`,userId:req.user._id})
       await User.findByIdAndUpdate(
         req.user._id,
         {$push:{postIds:post._id}}
@@ -50,6 +54,7 @@ const PostController = {
   },
   async getAllInf(req, res,next) {
     try {
+      
       const { page = 1, limit = 10 } = req.query;
 
       const posts = await Post.find()
