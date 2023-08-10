@@ -7,7 +7,7 @@ const { dbConnection } = require("./config/config")
 app.use(express.json())
 app.use(cors());
 app.use(express.static("./public"))
-git 
+
 dbConnection()
 const { handleTypeError } = require("./middlewares/errors");
 
